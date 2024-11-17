@@ -2,27 +2,34 @@ import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider";
 
-
 export default function Login() {
-  const navigate = useNavigate()
-  const { signInUser } = useContext(AuthContext)
+  const navigate = useNavigate();
+  const { signInUser, signInWithGoogle } = useContext(AuthContext);
 
-  const handleLogin = e => {
+  const handleLogin = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
 
     signInUser(email, password)
-    .then((user) => {
-      console.log("User logged in", user.user);
-      e.target.reset();
-      navigate("/")
-    })
-    .catch((error) => {
-      console.error("Error logging in:", error.message);
-    });
+      .then((user) => {
+        console.log("User logged in", user.user);
+        e.target.reset();
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Error logging in:", error.message);
+      });
+  };
 
-  }
+  const loginWithGoogle = () => {
+    signInWithGoogle()
+      .then(() => {
+        console.log("User logged in with Google");
+        navigate("/");
+      })
+      .catch((error) => console.log("ERROR:", error.message));
+  };
   return (
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col">
@@ -35,23 +42,44 @@ export default function Login() {
               <label className="label">
                 <span className="label-text">Email</span>
               </label>
-              <input type="email" name="email" placeholder="email" className="input input-bordered" required />
+              <input
+                type="email"
+                name="email"
+                placeholder="email"
+                className="input input-bordered"
+                required
+              />
             </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Password</span>
               </label>
-              <input type="password" name="password" placeholder="password" className="input input-bordered" required />
+              <input
+                type="password"
+                name="password"
+                placeholder="password"
+                className="input input-bordered"
+                required
+              />
             </div>
             <div className="form-control mt-6">
               <button className="btn btn-primary">Login</button>
             </div>
-            <p>You don&apos;t have any account? Please <Link className="underline" to="/register">
-              Register
-            </Link>.</p>
+            <div className="flex justify-center">
+              <button onClick={loginWithGoogle} className="btn">
+                Google Login
+              </button>
+            </div>
+            <p>
+              You don&apos;t have any account? Please{" "}
+              <Link className="underline" to="/register">
+                Register
+              </Link>
+              .
+            </p>
           </form>
         </div>
       </div>
     </div>
-  )
+  );
 }

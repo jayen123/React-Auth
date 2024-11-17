@@ -27,9 +27,14 @@ export default function Header() {
         <NavLink to="/register">Register</NavLink>
       </li>
       {user && (
-        <li>
-          <Link to="/order">Order</Link>
-        </li>
+        <>
+          <li>
+            <Link to="/order">Order</Link>
+          </li>
+          <li>
+            <Link to="/profile">Profile</Link>
+          </li>
+        </>
       )}
     </>
   );
