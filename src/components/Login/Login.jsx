@@ -1,13 +1,26 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../Providers/AuthProvider";
 
 
 export default function Login() {
+
+  const { signInUser } = useContext(AuthContext)
+
   const handleLogin = e => {
     e.preventDefault();
     const email = e.target.email.value;
-    console.log("🚀 ~ handleLogin ~ email:", email)
     const password = e.target.password.value;
-    console.log("🚀 ~ handleLogin ~ password:", password)
+
+    signInUser(email, password)
+    .then((user) => {
+      console.log("User logged in", user.user);
+      
+    })
+    .catch((error) => {
+      console.error("Error logging in:", error.message);
+    });
+
   }
   return (
     <div className="hero bg-base-200 min-h-screen">

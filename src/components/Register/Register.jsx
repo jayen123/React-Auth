@@ -1,17 +1,24 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
-
+import { AuthContext } from "../../Providers/AuthProvider";
 
 export default function Register() {
-  const handleRegister = e => {
+  const { createUser } = useContext(AuthContext);
+  const handleRegister = (e) => {
     e.preventDefault();
-    
-    const name = e.target.name.value;
-    console.log("🚀 ~ handleRegister ~ name:", name)
+
+    // const name = e.target.name.value;
     const email = e.target.email.value;
-    console.log("🚀 ~ handleRegister ~ email:", email)
     const password = e.target.password.value;
-    console.log("🚀 ~ handleRegister ~ password:", password)
-  }
+
+    createUser(email, password)
+      .then((user) => {
+        console.log("User created successfully:", user.user);
+      })
+      .catch((error) => {
+        console.error("Error creating user:", error.message);
+      });
+  };
   return (
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col">
@@ -24,29 +31,51 @@ export default function Register() {
               <label className="label">
                 <span className="label-text">Name</span>
               </label>
-              <input type="text" name="name" placeholder="name" className="input input-bordered" required />
+              <input
+                type="text"
+                name="name"
+                placeholder="name"
+                className="input input-bordered"
+                required
+              />
             </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
               </label>
-              <input type="email" name="email" placeholder="email" className="input input-bordered" required />
+              <input
+                type="email"
+                name="email"
+                placeholder="email"
+                className="input input-bordered"
+                required
+              />
             </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Password</span>
               </label>
-              <input type="password" name="password" placeholder="password" className="input input-bordered" required />
+              <input
+                type="password"
+                name="password"
+                placeholder="password"
+                className="input input-bordered"
+                required
+              />
             </div>
             <div className="form-control mt-6">
               <button className="btn btn-primary">Register</button>
             </div>
-            <p>Already have an account? Please <Link className="underline" to="/login">
-              Login
-            </Link>.</p>
+            <p>
+              Already have an account? Please{" "}
+              <Link className="underline" to="/login">
+                Login
+              </Link>
+              .
+            </p>
           </form>
         </div>
       </div>
     </div>
-  )
+  );
 }
