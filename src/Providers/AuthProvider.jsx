@@ -13,12 +13,15 @@ export const AuthContext = createContext(null);
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const createUser = (email, password) => {
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
   const signInUser = (email, password) => {
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
@@ -28,11 +31,13 @@ export default function AuthProvider({ children }) {
 
       return () => {
         unsubscribe();
+        setLoading(false);
       };
     });
   }, []);
 
   const signOutUser = () => {
+    setLoading(true);
     return signOut(auth);
   };
 
@@ -41,6 +46,7 @@ export default function AuthProvider({ children }) {
     createUser,
     signInUser,
     signOutUser,
+    loading
   };
 
   return (

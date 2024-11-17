@@ -24,6 +24,15 @@ export default function Header() {
       <li>
         <NavLink to="/register">Register</NavLink>
       </li>
+      {
+        user && (
+          <li>
+            <Link to="/order">
+              Order
+            </Link>
+          </li>
+        )
+      }
     </>
   );
   return (
