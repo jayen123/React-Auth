@@ -1,6 +1,11 @@
+import { useContext } from "react"
 import { NavLink } from "react-router-dom"
+import { AuthContext } from "../../Providers/AuthProvider"
 
 export default function Header() {
+    const auth = useContext(AuthContext)
+    console.log(auth);
+    
     const links = <>
     <li><NavLink to="/">Home</NavLink></li>
     <li><NavLink to="/login">Login</NavLink></li>
