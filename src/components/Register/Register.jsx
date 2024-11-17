@@ -1,8 +1,9 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider";
 
 export default function Register() {
+  const navigate = useNavigate();
   const { createUser } = useContext(AuthContext);
   const handleRegister = (e) => {
     e.preventDefault();
@@ -14,6 +15,9 @@ export default function Register() {
     createUser(email, password)
       .then((user) => {
         console.log("User created successfully:", user.user);
+        e.target.reset();
+        // Redirect to home page
+        navigate("/");
       })
       .catch((error) => {
         console.error("Error creating user:", error.message);

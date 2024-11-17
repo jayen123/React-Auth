@@ -1,14 +1,16 @@
 import { useContext } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider";
 
 export default function Header() {
+  const navigate = useNavigate();
   const { user, signOutUser } = useContext(AuthContext);
 
   const handleSignOut = () => {
     signOutUser()
       .then(() => {
         console.log("User signed out");
+        navigate("/login");
       })
       .catch((error) => console.log("ERROR:", error.message));
   };
@@ -24,15 +26,11 @@ export default function Header() {
       <li>
         <NavLink to="/register">Register</NavLink>
       </li>
-      {
-        user && (
-          <li>
-            <Link to="/order">
-              Order
-            </Link>
-          </li>
-        )
-      }
+      {user && (
+        <li>
+          <Link to="/order">Order</Link>
+        </li>
+      )}
     </>
   );
   return (
@@ -62,7 +60,9 @@ export default function Header() {
             {links}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <Link to="/" className="text-xl">
+          daisyUI
+        </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>

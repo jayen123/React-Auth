@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider";
 
 
 export default function Login() {
-
+  const navigate = useNavigate()
   const { signInUser } = useContext(AuthContext)
 
   const handleLogin = e => {
@@ -15,7 +15,8 @@ export default function Login() {
     signInUser(email, password)
     .then((user) => {
       console.log("User logged in", user.user);
-      
+      e.target.reset();
+      navigate("/")
     })
     .catch((error) => {
       console.error("Error logging in:", error.message);
